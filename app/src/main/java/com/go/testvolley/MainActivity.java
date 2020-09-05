@@ -15,16 +15,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -89,7 +92,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                tv_result.setText("That didn't work! " + error.getMessage());
+                                if (error.networkResponse != null) {
+                                    if (error.networkResponse.statusCode == 400) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data,"UTF-8"));
+                                            tv_result.setText("That didn't work! " + jsonObject.toString());
+                                        } catch (UnsupportedEncodingException | JSONException e) {
+                                            e.printStackTrace();
+                                            tv_result.setText("That didn't work! " + error.getMessage());
+                                        }
+                                    } else {
+                                        tv_result.setText("That didn't work! " + error.getMessage());
+                                    }
+                                } else {
+                                    tv_result.setText("That didn't work! " + error.getMessage());
+                                }
                             }
                         });
                 // Add the request to the RequestQueue.
@@ -117,7 +134,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                tv_result.setText("That didn't work! " + error.getMessage());
+                                tv_result.setText("That didn't work! " + error.getMessage());if (error.networkResponse != null) {
+                                    if (error.networkResponse.statusCode == 400) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data,"UTF-8"));
+                                            tv_result.setText("That didn't work! " + jsonObject.toString());
+                                        } catch (UnsupportedEncodingException | JSONException e) {
+                                            e.printStackTrace();
+                                            tv_result.setText("That didn't work! " + error.getMessage());
+                                        }
+                                    } else {
+                                        tv_result.setText("That didn't work! " + error.getMessage());
+                                    }
+                                } else {
+                                    tv_result.setText("That didn't work! " + error.getMessage());
+                                }
                             }
                         });
                 // Add the request to the RequestQueue.
@@ -129,14 +160,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 url = "https://jsonplaceholder.typicode.com/posts";
-                Map<String, String> params = new HashMap<String, String>();
+                /* Map<String, String> params = new HashMap<String, String>();
                 params.put("title", "foo");
                 params.put("body", "bar");
                 params.put("userId", "1");
-                JSONObject jsonObj = new JSONObject(params);
+                JSONObject jsonObj = new JSONObject(params); */
+
+                JSONObject json_data = new JSONObject();
+                try {
+                    json_data.put("title", "foo");
+                    json_data.put("body", "bar");
+                    json_data.put("userId", 1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.POST, url, jsonObj, new Response.Listener<JSONObject>() {
+                        (Request.Method.POST, url, json_data, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 tv_result.setText(response.toString());
@@ -145,7 +185,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                tv_result.setText("That didn't work! " + error.getMessage());
+                                if (error.networkResponse != null) {
+                                    if (error.networkResponse.statusCode == 400) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data,"UTF-8"));
+                                            tv_result.setText("That didn't work! " + jsonObject.toString());
+                                        } catch (UnsupportedEncodingException | JSONException e) {
+                                            e.printStackTrace();
+                                            tv_result.setText("That didn't work! " + error.getMessage());
+                                        }
+                                    } else {
+                                        tv_result.setText("That didn't work! " + error.getMessage());
+                                    }
+                                } else {
+                                    tv_result.setText("That didn't work! " + error.getMessage());
+                                }
                             }
                         });
                 // Add the request to the RequestQueue.
@@ -157,14 +211,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 url = "https://jsonplaceholder.typicode.com/posts/1";
-                Map<String, String> params = new HashMap<String, String>();
+                /* Map<String, String> params = new HashMap<String, String>();
                 params.put("title", "foo1");
                 params.put("body", "bar1");
                 params.put("userId", "1");
-                JSONObject jsonObj = new JSONObject(params);
+                JSONObject jsonObj = new JSONObject(params); */
+
+                JSONObject json_data = new JSONObject();
+                try {
+                    json_data.put("title", "foo1");
+                    json_data.put("body", "bar1");
+                    json_data.put("userId", 1);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 jsonObjectRequest = new JsonObjectRequest
-                        (Request.Method.PUT, url, jsonObj, new Response.Listener<JSONObject>() {
+                        (Request.Method.PUT, url, json_data, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
                                 tv_result.setText(response.toString());
@@ -173,7 +236,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                tv_result.setText("That didn't work! " + error.getMessage());
+                                if (error.networkResponse != null) {
+                                    if (error.networkResponse.statusCode == 400) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data,"UTF-8"));
+                                            tv_result.setText("That didn't work! " + jsonObject.toString());
+                                        } catch (UnsupportedEncodingException | JSONException e) {
+                                            e.printStackTrace();
+                                            tv_result.setText("That didn't work! " + error.getMessage());
+                                        }
+                                    } else {
+                                        tv_result.setText("That didn't work! " + error.getMessage());
+                                    }
+                                } else {
+                                    tv_result.setText("That didn't work! " + error.getMessage());
+                                }
                             }
                         });
                 // Add the request to the RequestQueue.
@@ -196,7 +273,21 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
                                 // TODO: Handle error
-                                tv_result.setText("That didn't work! " + error.getMessage());
+                                if (error.networkResponse != null) {
+                                    if (error.networkResponse.statusCode == 400) {
+                                        try {
+                                            JSONObject jsonObject = new JSONObject(new String(error.networkResponse.data,"UTF-8"));
+                                            tv_result.setText("That didn't work! " + jsonObject.toString());
+                                        } catch (UnsupportedEncodingException | JSONException e) {
+                                            e.printStackTrace();
+                                            tv_result.setText("That didn't work! " + error.getMessage());
+                                        }
+                                    } else {
+                                        tv_result.setText("That didn't work! " + error.getMessage());
+                                    }
+                                } else {
+                                    tv_result.setText("That didn't work! " + error.getMessage());
+                                }
                             }
                         });
                 // Add the request to the RequestQueue.
